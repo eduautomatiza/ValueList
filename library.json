@@ -1,0 +1,23 @@
+{
+    "name": "ValueList",
+    "version": "1.0.0",
+    "description": "This \"ValueList\" library stores id and values and prints the output in some Stream, type Serial.",
+    "keywords": "id, value, JSON, ArduinoJson",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/eduautomatiza/ValueList"
+    },
+    "authors": [
+        {
+            "name": "Eduardo Guse",
+            "email": "eduautomatiza@yahoo.com.br",
+            "maintainer": true
+        }
+    ],
+    "license": "MIT",
+    "dependencies": {
+        "external-repo": "https://github.com/bblanchon/ArduinoJson.git@~6"
+    },
+    "frameworks": "arduino",
+    "platforms": "espressif32"
+}
