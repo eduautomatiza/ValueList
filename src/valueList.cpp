@@ -25,20 +25,17 @@ bool ValueList::insert(const String &id, valueType_t valueType,
 
 void ValueList::clear(void) { length_ = 0; }
 
-void ValueList::toJsonObject(JsonObject jsonObject, const value_t &item) {
-  jsonObject["ID"] = item.id;
-  if (item.valueType == typeString) {
-    jsonObject["VALUE"] = item.value.c_str();
-  } else {
-    StaticJsonDocument<0> jsonValue;
-    deserializeJson(jsonValue, item.value.c_str());
-    jsonObject["VALUE"] = jsonValue;
+void ValueList::toJsonObject(JsonObject jsonObject) {
+  for (size_t i = 0; i < length_; i++) {
+    jsonObject[id(i)] = value(i);
   }
 }
 
 void ValueList::toJsonArray(JsonArray jsonArray) {
   for (size_t i = 0; i < length_; i++) {
-    toJsonObject(jsonArray.createNestedObject(), item_[i]);
+    JsonObject jsonObject = jsonArray.createNestedObject();
+    jsonObject["ID"] = id(i);
+    jsonObject["VALUE"] = value(i);
   }
 }
 
@@ -49,4 +46,18 @@ const ValueList::value_t &ValueList::operator[](size_t index) const {
   } else {
     return invalidResult;
   }
+}
+
+const StaticJsonDocument<0> ValueList::value(size_t index) const {
+  StaticJsonDocument<0> jsonValue;
+  if (item_[index].valueType == typeString) {
+    jsonValue = item_[index].value.c_str();
+  } else {
+    deserializeJson(jsonValue, item_[index].value.c_str());
+  }
+  return jsonValue;
+}
+
+const char *ValueList::id(size_t index) const {
+  return item_[index].id.c_str();
 }

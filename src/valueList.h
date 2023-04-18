@@ -21,7 +21,7 @@ class ValueList {
   ~ValueList(void);
   bool insert(const String &id, valueType_t valueType, const String &value);
   void clear(void);
-  void toJsonObject(JsonObject jsonObject, const value_t &item);
+  void toJsonObject(JsonObject jsonObject);
   void toJsonArray(JsonArray jsonArray);
   const value_t &operator[](size_t index) const;
 
@@ -31,4 +31,6 @@ class ValueList {
   size_t size_;
   size_t length_;
   value_t *item_;
+  const StaticJsonDocument<0> value(size_t index) const;
+  const char *id(size_t index) const;
 };
