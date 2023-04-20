@@ -1,10 +1,21 @@
 #include "valueList.h"
 
-ValueList::ValueList(size_t size_list) : size_(0), length_(0), item_(nullptr) {
-  item_ = new value_t[size_list];
-  if (item_) {
-    size_ = size_list;
-  }
+ValueList::ValueList(size_t size_list)
+    : size_(0),
+      length_(0),
+      item_(new value_t[size_list]),
+      keyId_("ID"),
+      keyValue_("VALUE") {
+  if (item_) size_ = size_list;
+}
+
+ValueList::ValueList(size_t size_list, String keyId, String keyValue)
+    : size_(0),
+      length_(0),
+      item_(new value_t[size_list]),
+      keyId_(keyId),
+      keyValue_(keyValue) {
+  if (item_) size_ = size_list;
 }
 
 ValueList::~ValueList(void) {
@@ -25,22 +36,22 @@ bool ValueList::insert(const String &id, valueType_t valueType,
 
 void ValueList::clear(void) { length_ = 0; }
 
-void ValueList::toJsonObject(JsonObject jsonObject) {
+void ValueList::toJsonObject(JsonObject jsonObject) const {
   for (size_t i = 0; i < length_; i++) {
     jsonObject[id(i)] = value(i);
   }
 }
 
-void ValueList::toJsonArray(JsonArray jsonArray) {
+void ValueList::toJsonArray(JsonArray jsonArray) const {
   for (size_t i = 0; i < length_; i++) {
     JsonObject jsonObject = jsonArray.createNestedObject();
-    jsonObject["ID"] = id(i);
-    jsonObject["VALUE"] = value(i);
+    jsonObject[keyId_.c_str()] = id(i);
+    jsonObject[keyValue_.c_str()] = value(i);
   }
 }
 
 const ValueList::value_t &ValueList::operator[](size_t index) const {
-  static value_t invalidResult = {"", typeUndefined, ""};
+  static const value_t invalidResult = {"", typeUndefined, ""};
   if (index < length_) {
     return item_[index];
   } else {
