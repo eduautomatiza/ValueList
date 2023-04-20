@@ -13,7 +13,7 @@ void setup() { Serial.begin(115200); }
 void loop() {
   DynamicJsonDocument doc(4096);
   ValueList temperature(3);
-  ValueList humidity(1);
+  ValueList humidity(1, "id", "value");
 
   temperature.insert("id_1", ValueList::typeNumber, "52");
   temperature.insert("id_2", ValueList::typeNumber, "20.12");
@@ -21,14 +21,13 @@ void loop() {
   humidity.insert("id_4", ValueList::typeNumber, "32");
 
   temperature.toJsonArray(doc.createNestedArray("TEMPERATURE"));
-  humidity.toJsonArray(doc.createNestedArray("HUMIDITY"));
+  humidity.toJsonArray(doc.createNestedArray("humidity"));
 
   serializeJsonPretty(doc, Serial);
   Serial.println();
 
   delay(1000);
 }
-
 ```
 
 Terminal output:
@@ -49,10 +48,10 @@ Terminal output:
       "VALUE": "text 123"
     }
   ],
-  "HUMIDITY": [
+  "humidity": [
     {
-      "ID": "id_4",
-      "VALUE": 32
+      "id": "id_4",
+      "value": 32
     }
   ]
 }
