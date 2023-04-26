@@ -17,33 +17,31 @@ void ValueList::insert(const String &id, valueType_t valueType,
 }
 
 void ValueList::clear(void) {
-  for (auto it : items_) {
-    delete it;
+  for (auto item : items_) {
+    delete item;
   }
   items_.clear();
 }
 
 void ValueList::toJsonObject(JsonObject jsonObject) const {
-  for (auto it : items_) {
-    jsonObject[id(it)] = value(it);
+  for (auto item : items_) {
+    jsonObject[id(item)] = value(item);
   }
 }
 
 void ValueList::toJsonArray(JsonArray jsonArray) const {
-  for (auto it : items_) {
+  for (auto item : items_) {
     JsonObject jsonObject = jsonArray.createNestedObject();
-    jsonObject[keyId_.c_str()] = id(it);
-    jsonObject[keyValue_.c_str()] = value(it);
+    jsonObject[keyId_.c_str()] = id(item);
+    jsonObject[keyValue_.c_str()] = value(item);
   }
 }
 
-const ValueList::value_t &ValueList::operator[](size_t index) const {
+const ValueList::value_t *ValueList::operator[](size_t index) const {
   if (index < items_.size()) {
-    return *items_.at(index);
+    return items_[index];
   } else {
-    static const value_t defaultValueList(
-        {.id = "", .valueType = typeUndefined, .value = ""});
-    return defaultValueList;
+    return nullptr;
   }
 }
 

@@ -25,7 +25,7 @@ class ValueList {
   void insert(const String &id, valueType_t valueType, const String &value);
   void clear(void);
   size_t size(void);
-  const value_t &operator[](size_t index) const;
+  const value_t *operator[](size_t index) const;
   void toJsonObject(JsonObject jsonObject) const;
   void toJsonArray(JsonArray jsonArray) const;
 
