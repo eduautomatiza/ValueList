@@ -7,8 +7,8 @@ void setup() { Serial.begin(115200); }
 
 void loop() {
   DynamicJsonDocument doc(4096);
-  ValueList temperature(3);
-  ValueList humidity(1);
+  ValueList temperature;
+  ValueList humidity;
 
   temperature.insert("id_1", ValueList::typeNumber, "52");
   temperature.insert("id_2", ValueList::typeNumber, "20.12");
